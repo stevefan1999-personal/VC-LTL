@@ -1,0 +1,15 @@
+os: windows
+language: cpp
+
+before_script:
+  - choco install visualstudio2019buildtools
+  - choco install visualstudio2019-workload-vctools
+
+jobs:
+  include:
+    - 
+      stage: build
+      name: "Building"        
+      script: 
+        - ./src/VC-LTL.cmd
+        
