@@ -1,15 +1,17 @@
 os: windows
 language: cpp
 
-before_script:
-  - choco install visualstudio2019buildtools
-  - choco install visualstudio2019-workload-vctools
-
-jobs:
+matrix:
   include:
     - 
-      stage: build
-      name: "Building"        
+      name: "MSVC on Windows"
+      os: windows
+      install:
+        - choco install visualstudio2019buildtools visualstudio2019-workload-vctools
+        - curl -o VC-LTL-Prebuilt.7z -L https://github.com/Chuyu-Team/VC-LTL/releases/download/4.0.1.10/VC-LTL-4.0.1.10-Binary-VS2019.7z
+        - 7z -oVC-LTL-Prebuilt x VC-LTL-Prebuilt.7z
+        - ./VC-LTL-Prebuilt/Install.cmd
       script: 
+        - cmd.exe /C '"C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64'
         - ./src/VC-LTL.cmd
         

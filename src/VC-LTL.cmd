@@ -1,11 +1,11 @@
-@echo off
+rem @echo off
 
 ::自动生成VC-LTL库
 
 ::使用64位编译工具，提升性能
 set PreferredToolArchitecture=x64
 
-set Path=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE;%Path%
+set Path=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE;C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build;%Path%
 
 ::先生成静态库
 call:Build Static "x86 x64 ARM ARM64"
@@ -85,13 +85,13 @@ goto:eof
 ::Build Dynamic "x86 x64 ARM ARM64" ["ucrt\ucrt.vcxproj"]
 :Build
 
-for %%i in (%~2)do call:BuildWithErrorCheck "%1|%%i" %3
+for %%i in (%~2)do call:BuildWithErrorCheck "%1" %%i %3
 
 goto:eof
 
 :BuildWithErrorCheck :: Dynamic|x86   ["ucrt\ucrt.vcxproj"]
 
-if "%2"=="" ( devenv "%~dp0VC-LTL.sln" /Build %1 ) else ( devenv "%~dp0VC-LTL.sln" /Build %1 /project %2 )
+if "%3"=="" ( msbuild "%~dp0VC-LTL.sln" /p:Configuration=%1 /p:Platform=%2 ) else ( msbuild "%~dp0VC-LTL.sln" /p:Configuration=%1 /p:Platform=%2 /t:%3 )
 
 if %ERRORLEVEL% NEQ 0 echo %1 %2 编译遇到问题，请查错后继续。&&pause
 
