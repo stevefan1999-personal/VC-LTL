@@ -10,9 +10,9 @@ matrix:
         - choco install visualstudio2019buildtools visualstudio2019-workload-vctools
         - curl -o VC-LTL-Prebuilt.7z -L https://github.com/Chuyu-Team/VC-LTL/releases/download/4.0.1.10/VC-LTL-4.0.1.10-Binary-VS2019.7z
         - 7z -oVC-LTL-Prebuilt x VC-LTL-Prebuilt.7z
-        - cmd.exe /c './VC-LTL-Prebuilt/Install.cmd < nul'
+        - yes "" | ./VC-LTL-Prebuilt/Install.cmd
       before_script:
         - cmd.exe /C '"C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64'
       script: 
-        - cmd.exe /c './src/VC-LTL.cmd < nul'
+        - yes "" | ./src/VC-LTL.cmd
         
